@@ -1,0 +1,87 @@
+<div class="row">
+  <div class="col-md-12">
+    <br/>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form ng-submit="Find()">
+      <div class="input-group">
+
+
+        <div class="input-group-btn">
+          <button type="button"
+                  class="btn btn-info dropdown-toggle"
+                  data-toggle="dropdown">English <span class="caret"></span>
+          </button>
+
+          <ul class="dropdown-menu">
+            <li><a href="#">English</a></li>
+            <li><a href="#">English (disambiguated)</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Russian</a></li>
+            <li><a href="#">Russian (disambiguated)</a></li>
+            <li class="divider"></li>
+            <li><a href="#">Spanish</a></li>
+            <li><a href="#">Spanish (disambiguated)</a></li>
+          </ul>
+        </div>
+
+        <input type="text"
+               ng-submit="Find()"
+               class="form-control"
+               placeholder=""
+               ng-model="query.query"
+               />
+
+        <span class="input-group-btn">
+          <button class="btn btn-info" type="submit" ng-click="Find()">
+            Find Matching Triples
+          </button>
+        </span>
+
+      </div>
+
+    </form>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-md-12">
+    <br/>
+    <br/>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover table-condensed table-striped">
+
+        <thead>
+          <tr>
+            <th>Rel. Type</th>
+            <th>Arg 1</th>
+            <th>Arg 2</th>
+            <th>Arg 3</th>
+            <th>Arg 4</th>
+            <th>Arg 5</th>
+            <th>Frequency</th>
+          </tr>
+        </thead>
+
+        <tbody>
+
+          <tr ng-repeat="triple in triples">
+              <td>{{ triple[0] }}</td>
+              <td>{{ triple[1] }}</td>
+              <td>{{ triple[2] }}</td>
+              <td>{{ triple[3] }}</td>
+              <td>{{ triple[4] }}</td>
+              <td>{{ triple[5] }}</td>
+              <td>{{ triple[6] }}</td>
+          </tr>
+
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
