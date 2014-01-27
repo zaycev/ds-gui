@@ -21,10 +21,10 @@ We generated dependency tuples from parsed copora. The corpora were parsed using
 - [Russian](https://github.com/metaphor-adp/Metaphor-ADP/tree/master/pipelines/Russian)
 
 As one of the possible formats, the semantic processing pipelines output logical
-forms of sentences in the style of [Hobbs, 1985](http://www.isi.edu/~hobbs/op-acl85.pdf), generalize over some syntactic constructions (e.g., passive/active), and performs binding of arguments. For example, the sentence *John decided to go to school* is represented as follows:
+forms of sentences in the style of [(Hobbs, 1985)](http://www.isi.edu/~hobbs/op-acl85.pdf), generalize over some syntactic constructions (e.g., passive/active), and performs binding of arguments. For example, the sentence *John decided to go to school* is represented as follows:
 
 ```
-john-nn(e1,x1) & decide-vb(e2,x1,e3) & go-vb(e3,x1) & to-in(e4,e3,x2) & school-nn(e5,x2)
+john-nn(e1,x1) & decide-vb(e2,x1,e3,u1) & go-vb(e3,x1,u2,u3) & to-in(e4,e3,x2) & school-nn(e5,x2)
 ```
 
 The following dependency tuples can be extracted
