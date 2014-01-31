@@ -34,6 +34,7 @@ from this output:
 (subj-verb john decide)
 (subj-verb john go)
 (verb-verb decide go)
+(verp-prep-noun go to school)
 ```
 
 A dependency store is a collection of such tuples such that each tuple is assigned its frequency in a corpus. 
