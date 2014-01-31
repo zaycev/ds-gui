@@ -1,4 +1,4 @@
-<!-- 
+<!--
 Copyright (C) University of Southern California (http://usc.edu)
 Author: Vladimir M. Zaytsev <zaytsev@usc.edu>
 URL: <http://nlg.isi.edu/>
@@ -17,10 +17,38 @@ For license information, see LICENSE
     <form ng-submit="Find()">
 
       <div class="row">
-        <div class="col-md-2"><small class="text-muted">Index</small></div>
-        <div class="col-md-2 text-right"><small class="text-muted">Rel. Type</small></div>
-        <div class="col-md-2"><small class="text-muted">Freq.</small></div>
-        <div class="col-md-6"><small class="text-muted">Query</small></div>
+        <div class="col-md-2">
+          <small class="text-muted">
+            Index
+<!--             <small  ng-click="ShowIndexHelp()" style="cursor:pointer;"
+                class="glyphicon glyphicon-question-sign">
+            </small>
+ -->          </small>
+        </div>
+        <div class="col-md-2 text-right">
+          <small class="text-muted">
+            Rel. Type
+            <small  ng-click="ShowRelTypeHelp()" style="cursor:pointer;"
+                class="glyphicon glyphicon-question-sign">
+            </small>
+          </small>
+        </div>
+        <div class="col-md-2">
+          <small class="text-muted">
+            Freq.
+            <small  ng-click="ShowFreqHelp()" style="cursor:pointer;"
+                class="glyphicon glyphicon-question-sign">
+            </small>
+          </small>
+        </div>
+        <div class="col-md-6">
+          <small class="text-muted">
+            Query
+<!--             <small  ng-click="ShowQueryHelp()" style="cursor:pointer;"
+                class="glyphicon glyphicon-question-sign">
+            </small>
+ -->          </small>
+        </div>
       </div>
 
       <div class="row">
@@ -128,14 +156,69 @@ For license information, see LICENSE
         <tbody>
 
           <tr ng-repeat="triple in search_result.found_triples">
-              <td>{{ triple[7] }}</td>
-              <td>{{ triple[0] }}</td>
-              <td>{{ triple[1] }}</td>
-              <td>{{ triple[2] }}</td>
-              <td>{{ triple[3] }}</td>
-              <td>{{ triple[4] }}</td>
-              <td>{{ triple[5] }}</td>
-              <td>{{ triple[6] }}</td>
+              <td>{{triple.n}}</td>
+              <td>{{triple.t}}</td>
+              <td>
+                {{triple.a1.v}}<span ng-show="triple.a1.p">-{{triple.a1.p}}</span>
+                <button
+                        title="{{triple.a1.v}}"
+                        data-container="body"
+                        data-toggle="popover"
+                        data-placement="top"
+                        data-content="Synset ({{triple.a1.w.length}} words):<br/><div style='overflow:scroll;height:200px;'>{{triple.a1.w.join(', ')}}</div>"
+                        ng-show="triple.a1.t==1"
+                        class="btn btn-default btn-xs show-popover"
+                        >...</button>
+              </td>
+              <td>
+                {{triple.a2.v}}<span ng-show="triple.a2.p">-{{triple.a2.p}}</span>
+                <button
+                        title="{{triple.a2.v}}"
+                        data-container="body"
+                        data-toggle="popover"
+                        data-placement="top"
+                        data-content="Synset ({{triple.a2.w.length}} words):<br/><div style='overflow:scroll;height:200px;'>{{triple.a2.w.join(', ')}}</div>"
+                        ng-show="triple.a2.t==1"
+                        class="btn btn-default btn-xs show-popover"
+                        >...</button>
+              </td>
+              <td>
+                {{triple.a3.v}}<span ng-show="triple.a3.p">-{{triple.a3.p}}</span>
+                <button
+                        title="{{triple.a3.v}}"
+                        data-container="body"
+                        data-toggle="popover"
+                        data-placement="top"
+                        data-content="Synset ({{triple.a3.w.length}} words):<br/><div style='overflow:scroll;height:200px;'>{{triple.a3.w.join(', ')}}</div>"
+                        ng-show="triple.a3.t==1"
+                        class="btn btn-default btn-xs show-popover"
+                        >...</button>
+              </td>
+              <td>
+                {{triple.a4.v}}<span ng-show="triple.a4.p">-{{triple.a4.p}}</span>
+                <button
+                        title="{{triple.4.v}}"
+                        data-container="body"
+                        data-toggle="popover"
+                        data-placement="top"
+                        data-content="Synset ({{triple.a4.w.length}} words):<br/><div style='overflow:scroll;height:200px;'>{{triple.a4.w.join(', ')}}</div>"
+                        ng-show="triple.a4.t==1"
+                        class="btn btn-default btn-xs show-popover"
+                        >...</button>
+              </td>
+              <td>
+                {{triple.a5.v}}<span ng-show="triple.a5.p">-{{triple.a5.p}}</span>
+                <button
+                        title="{{triple.a5.v}}"
+                        data-container="body"
+                        data-toggle="popover"
+                        data-placement="top"
+                        data-content="Synset ({{triple.a5.w.length}} words):<br/><div style='overflow:scroll;height:200px;'>{{triple.a5.w.join(', ')}}</div>"
+                        ng-show="triple.a5.t==1"
+                        class="btn btn-default btn-xs show-popover"
+                        >...</button>
+              </td>
+              <td>{{triple.f}}</td>
           </tr>
 
         </tbody>
@@ -170,3 +253,92 @@ For license information, see LICENSE
     </div>
   </div>
 </div>
+
+
+<div class="modal fade" id="RelTypeHelp">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Dependency Relation Type</h4>
+      </div>
+      <div class="modal-body">
+
+        <h5>Use one of the following values to specify the relation type:</h5>
+
+        <br/>
+
+        <p>
+          <ul style="font-family: monospace;">
+            <li>subj_verb_dirobj</li>
+            <li>subj_verb_indirobj</li>
+            <li>subj_verb_instr</li>
+            <li>subj_verb</li>
+            <li>subj_verb_prep_compl</li>
+            <li>subj_verb_prep_prep_compl</li>
+            <li>subj_verb_verb_prep_noun</li>
+            <li>subj_verb_verb</li>
+            <li>noun_adj_prep_noun</li>
+            <li>noun_adj</li>
+            <li>noun_verb_adv_prep_noun</li>
+            <li>noun_verb_adv</li>
+            <li>nn_prep</li>
+            <li>nn</li>
+            <li>nnn</li>
+            <li>noun_equal_prep_noun</li>
+            <li>noun_equal_noun</li>
+            <li>noun_prep_noun</li>
+            <li>compl</li>
+          </ul>
+        </p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">
+          Got it, thanks!
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<div class="modal fade" id="FreqHelp">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Dependency Relation Frequency</h4>
+      </div>
+      <div class="modal-body">
+
+        <h5>Use this field to set frequency filter. Here are cuple of examples::</h5>
+
+        <br/>
+
+        <p style="font-family:monospace;">
+          10:100   // Will return relations with frequency from 10 to 100.
+        </p>
+
+        <p style="font-family:monospace;">
+          50:      // Will return relations with frequency greater than 49.
+        </p>
+
+        <p style="font-family:monospace;">
+          :500     // Will return relations with frequency smaller than 501
+        </p>
+
+        <p style="font-family:monospace;">
+          5        // Will return relations with frequency greater than 4
+        </p>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">
+          Got it, thanks!
+        </button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

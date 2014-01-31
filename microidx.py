@@ -268,11 +268,11 @@ class MicroIndex(object):
         doc_ldb.close()
         gc.collect()
 
-    def find(self, query, limit=256, offset=0, min_freq=0, rel_type=None):
+    def find(self, query, limit=256, offset=0, freq=(0, np.inf), rel_type=None):
         try:
             if rel_type == "*":
                 rel_type = None
-            posting_lists = [self.execute_subquery(sub_query, min_freq, rel_type) for sub_query in query]
+            posting_lists = [self.execute_subquery(sub_query, freq, rel_type) for sub_query in query]
             intersected_lists = sorted(set.intersection(*posting_lists))
             total_size = len(intersected_lists)
             documents = []
@@ -293,7 +293,8 @@ class MicroIndex(object):
         except Exception:
             raise MicroIndexQueryExecutionError("Error while executing query: %r." % query)
 
-    def execute_subquery(self, sub_query, min_freq, rel_type):
+    def execute_subquery(self, sub_query, freq,  rel_type):
+        print freq
         word, pos, idx = None, None, None
         if len(sub_query) == 0:
             raise ValueError("Zero size sub query.")
@@ -307,7 +308,6 @@ class MicroIndex(object):
             word, pos, idx = sub_query
         else:
             raise ValueError("Large size (%d) sub query. Probably bad parse." % len(sub_query))
-
         word_id = self.w2id_dict.get(word, -1)
         if word_id == -1:
             return set()
@@ -333,10 +333,11 @@ class MicroIndex(object):
                     except KeyError:
                         pass
 
-        if min_freq is not None and min_freq > 0:
+        min_freq, max_freq = freq
+        if not (min_freq == 0 and max_freq == np.inf):
             frqs_id = np.fromstring(self.idx_ldb.get(word_id + MicroIndex.DELIMITER + "F"), dtype=np.uint32)
             for i, doc_frq in enumerate(frqs_id):
-                if doc_frq < min_freq:
+                if not (min_freq <= doc_frq <= max_freq):
                     doc_id = dics_id[i]
                     try:
                         dics_id_set.remove(doc_id)
@@ -353,7 +354,6 @@ class MicroIndex(object):
                         dics_id_set.remove(doc_id)
                     except KeyError:
                         pass
-
         return dics_id_set
 
     @staticmethod
@@ -398,6 +398,30 @@ class MicroIndex(object):
         except Exception:
             raise MicroIndexQueryParsingError("Query parsing error: %r" % query_str)
 
+    @staticmethod
+    def parse_frequency(freq_str):
+        """
+        Frequency = MIN:MAX
+        Frequency = :MAX
+        Frequency = MIN:
+        Frequency = MIN
+        """
+        if ":" in freq_str:
+            if freq_str[0] == ":":    # :MAX
+                f_min = 0
+                f_max = int(freq_str.split(":")[1])
+            elif freq_str[-1] == ":": # MIN:
+                f_min = int(freq_str.split(":")[0])
+                f_max = np.inf
+            else:
+                f_min, f_max = freq_str.split(":")
+                f_min = int(f_min)
+                f_max = int(f_max)
+        else:
+            f_min = int(freq_str)
+            f_max = np.inf
+        return f_min, f_max
+
 if __name__ == "__main__":
     import sys
 
@@ -408,8 +432,3 @@ if __name__ == "__main__":
         MicroIndex.create(sys.argv[1], sys.stdin)
     except Exception:
         logging.info("Index exists.")
-
-    mi = MicroIndex.open(sys.argv[1])
-
-    for t in mi.find(("putin",), rel_type="subj_verb"):
-        print t

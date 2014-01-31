@@ -3,8 +3,8 @@
  *
  */
 
-app.controller("SeachController", ["$scope", "$location", "$http",
-    function ($scope, $location, $http) {
+app.controller("SeachController", ["$scope", "$location", "$http", "$timeout",
+    function ($scope, $location, $http, $timeout) {
 
         var index_names = {
             "eng": "English",
@@ -50,6 +50,11 @@ app.controller("SeachController", ["$scope", "$location", "$http",
                 }
             }).success(function (data, status, headers, config) {
                     $scope.search_result = data;
+                    $timeout(function(){
+                        $(".show-popover").popover({
+                            "html": true
+                        });
+                    }, 0, false);
             }).error(function (data, status, headers, config) {
 
             });
@@ -73,6 +78,13 @@ app.controller("SeachController", ["$scope", "$location", "$http",
                 "rpage": $scope.query.rpage,
                 "rtype": $scope.query.rtype
             });
+        };
+
+        $scope.ShowRelTypeHelp = function() {
+            $("#RelTypeHelp").modal();
+        };
+        $scope.ShowFreqHelp = function() {
+            $("#FreqHelp").modal();
         };
 
 
