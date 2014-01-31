@@ -62,5 +62,4 @@ TEMPLATE_LOADERS = (
 
 TEMPLATE_DIRS = (
     "templates",
-    # project_dir("templates"),
 )

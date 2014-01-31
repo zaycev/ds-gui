@@ -1,6 +1,15 @@
-isi-triplestore-web
-===================
+Dependency Store Web GUI
+========================
 
-Web application to access triple store at isi.edu
+Web application to access dependency store collected at isi.edu
 
-![Triple Store](https://dl.dropboxusercontent.com/u/1699417/other/triple-store.png)
+###Licence
+See LICENSE for details.
+
+
+###Authors
+* Vova Zaytsev [<zaytsev@usc.edu>](mailto:zaytsev@usc.edu)
+* Katya Ovchinnikova [<e.ovchinnikova@gmail.com>](mailto:e.ovchinnikova@gmail.com)
+
+###About
+See ABOUT.md for more details.

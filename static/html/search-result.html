@@ -7,56 +7,106 @@
 <div class="row">
   <div class="col-md-12">
     <form ng-submit="Find()">
-      <div class="input-group">
 
-
-        <div class="input-group-btn">
-          <button type="button"
-                  class="btn btn-info dropdown-toggle"
-                  data-toggle="dropdown">English <span class="caret"></span>
-          </button>
-
-          <ul class="dropdown-menu">
-            <li><a href="#">English</a></li>
-            <li><a href="#">English (disambiguated)</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Russian</a></li>
-            <li><a href="#">Russian (disambiguated)</a></li>
-            <li class="divider"></li>
-            <li><a href="#">Spanish</a></li>
-            <li><a href="#">Spanish (disambiguated)</a></li>
-          </ul>
-        </div>
-
-        <input type="text"
-               ng-submit="Find()"
-               class="form-control"
-               placeholder=""
-               ng-model="query.query"
-               />
-
-        <span class="input-group-btn">
-          <button class="btn btn-info" type="submit" ng-click="Find()">
-            Find Matching Triples
-          </button>
-        </span>
-
+      <div class="row">
+        <div class="col-md-2"><small class="text-muted">Index</small></div>
+        <div class="col-md-2 text-right"><small class="text-muted">Rel. Type</small></div>
+        <div class="col-md-2"><small class="text-muted">Freq.</small></div>
+        <div class="col-md-6"><small class="text-muted">Query</small></div>
       </div>
 
+      <div class="row">
+
+        <div class="col-md-4">
+          <div class="input-group">
+            <div class="input-group-btn">
+              <button type="button"
+                      class="btn btn-primary dropdown-toggle"
+                      data-toggle="dropdown">{{ query.index_name }} <span class="caret"></span>
+              </button>
+
+              <ul class="dropdown-menu">
+                <li><a style="cursor:pointer;" ng-click="SetIndex('eng')">English</a></li>
+                <li><a style="cursor:pointer;" ng-click="SetIndex('eng_gen')">English (generalized)</a></li>
+                <li class="divider"></li>
+                <li><a style="cursor:pointer;" ng-click="SetIndex('rus')">Russian</a></li>
+                <li><a style="cursor:pointer;" ng-click="SetIndex('rus_gen')">Russian (generalized)</a></li>
+                <li class="divider"></li>
+                <li><a style="cursor:pointer;" ng-click="SetIndex('spa')">Spanish</a></li>
+              </ul>
+            </div>
+
+            <input type="text"
+                   class="form-control"
+                   placeholder="Rel. Type"
+                   ng-model="query.rtype"
+                   />
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <input type="text"
+                 ng-submit="Find()"
+                 class="form-control"
+                 placeholder="Freq."
+                 ng-model="query.mfreq"
+                 />
+        </div>
+
+        <div class="col-lg-6">
+          <div class="input-group">
+            <input type="text"
+                   ng-submit="Find()"
+                   class="form-control"
+                   placeholder="Type query here"
+                   ng-model="query.query"
+                   />
+            <span class="input-group-btn">
+              <button class="btn btn-primary" type="submit" ng-click="Find()">
+                Find
+              </button>
+            </span>
+          </div>
+        </div>
+
+      </div>
     </form>
   </div>
 </div>
 
 
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-10">
+      <ul class="pagination pagination-sm" ng-if="search_result.pages>1">
+        <li ng-repeat="page in [] | pagination:search_result.pages" ng-class="{active: page==search_result.page}">
+          <a ng-click="Find(page)" style="cursor:pointer;">{{ page }}</a>
+        </li>
+      </ul>
+  </div>
+  <div class="col-md-2" ng-if="search_result.found_triples.length>0">
     <br/>
-    <br/>
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover table-condensed table-striped">
+    <div class="pull-right">
+      <small class="text-muted">get <a href="{{ search_result.url }}" class="glyphicon glyphicon-cloud-download">JSON</a></small>
+    </div>
+  </div>
+</div>
 
+<br ng-if="search_result.pages<=1"/>
+
+<div class="row">
+  <div class="col-md-12">
+    <div ng-if="search_result.found_triples.length==0" class="text-center">
+      <br/>
+      <br/>
+      <h3 class="text-muted center-block">No matching relations found</h3>
+      <br/>
+      <br/>
+    </div>
+    <div class="table-responsive" ng-if="search_result.found_triples.length">
+      <table class="table table-bordered table-hover table-condensed table-striped">
         <thead>
           <tr>
+            <th>#</th>
             <th>Rel. Type</th>
             <th>Arg 1</th>
             <th>Arg 2</th>
@@ -69,7 +119,8 @@
 
         <tbody>
 
-          <tr ng-repeat="triple in triples">
+          <tr ng-repeat="triple in search_result.found_triples">
+              <td>{{ triple[7] }}</td>
               <td>{{ triple[0] }}</td>
               <td>{{ triple[1] }}</td>
               <td>{{ triple[2] }}</td>
@@ -79,9 +130,35 @@
               <td>{{ triple[6] }}</td>
           </tr>
 
-
         </tbody>
       </table>
+    </div>
+  </div>
+</div>
+
+
+<div class="row" ng-if="query.debug=='1'">
+  <div class="col-md-12">
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        Query Info
+      </div>
+      <div class="panel-body">
+        <pre>
+  index: {{ search_result.index }},
+  rtype: {{ search_result.rtype }},
+  error: {{ search_result.error }},
+  total_triples: {{ search_result.total_triples }},
+  page_size: {{ search_result.page_size }},
+  pages: {{ search_result.pages }},
+  mfreq: {{ search_result.mfreq }},
+  query: {{ search_result.query }}
+  error_code: {{ search_result.error_code }},
+  error_msg: {{ search_result.error_msg }},
+  page: {{ search_result.page }}
+  url: {{ search_result.url }}
+        </pre>
+      </div>
     </div>
   </div>
 </div>

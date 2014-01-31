@@ -30,7 +30,7 @@ body {
 
 .container {
   width: auto;
-  max-width: 960px;
+  max-width: 900px;
   padding: 0 15px;
 }
 .container .text-muted {
@@ -41,4 +41,12 @@ body {
 #about-button {
 	display: block;
 	margin-top:-32px;
+}
+
+input {
+  font-family: monospace;
+}
+
+.table * {
+  font-family: monospace;
 }

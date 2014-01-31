@@ -29,6 +29,15 @@ angular.module("ng").filter("cut", function () {
     };
 });
 
+app.filter("pagination", function() {
+  return function(input, total) {
+    total = parseInt(total);
+    for (var i=1; i<=total; i++)
+      input.push(i);
+    return input;
+  };
+});
+
 
 //app.factory("SeachService", ["$http", "$location",
 //    function($http) {
