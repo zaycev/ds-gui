@@ -14,7 +14,7 @@ A dependency store, i.e. a collection of dependency relations with assigned freq
 We build upon the idea that by parsing a sentence and abstracting from its syntactic structure (e.g.,
 dropping modifiers) we can obtain common sense knowledge. For example, the sentence *Powerful summer storms left extensive damage in California* reveals common sense knowledge about storms possibly leaving damage and being powerful. This knowledge can be captured by tuples of words that have a determined pattern of syntactic relations among them. While many of such tuples can be erroneous due to parse errors, statistically higher frequency tuples can be considered more reliable.
 
-We generated dependency tuples from parsed copora. The corpora were parsed using the following semantic processing pipelines:
+We generated dependency tuples from parsed [English Gigaword](http://catalog.ldc.upenn.edu/LDC2003T05), [Spanish Gigaword](http://catalog.ldc.upenn.edu/LDC2011T12), [Russian ruwac](http://corpus.leeds.ac.uk/mocky/). The corpora were parsed using the following semantic processing pipelines:
 
 - [English](https://github.com/metaphor-adp/Metaphor-ADP/tree/master/pipelines/English)
 - [Spanish](https://github.com/metaphor-adp/Metaphor-ADP/tree/master/pipelines/Spanish)
