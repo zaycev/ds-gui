@@ -63,5 +63,5 @@ The tools for building dependency stores can be found in [this repository](https
 **Contact**
 
 - Vladimir Zaytsev ()
-- Katya Ovchinnikova (e.ovchinnikova-AT-gmail.com)
+- Katya Ovchinnikova (e.ovchinnikova@gmail.com)
 
