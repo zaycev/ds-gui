@@ -15,7 +15,12 @@ import os
 import plyvel
 import logging
 import traceback
-import numpy as np
+
+try:
+    import numpy as np
+except ImportError:
+    import numpypy
+    import numpy as np
 
 
 def mb(number):
