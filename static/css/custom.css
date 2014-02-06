@@ -57,6 +57,7 @@ input {
   font-family: monospace;
 }
 
-.table * {
-  font-family: monospace;
-}
+.tab-text {
+/*  font-family: monospace;
+  font-size: 12px;
+*/}

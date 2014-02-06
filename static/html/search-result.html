@@ -114,8 +114,8 @@ For license information, see LICENSE
 <div class="row">
   <div class="col-md-10">
       <ul class="pagination pagination-sm" ng-if="search_result.pages>1">
-        <li ng-repeat="page in [] | pagination:search_result.pages" ng-class="{active: page==search_result.page}">
-          <a ng-click="Find(page)" style="cursor:pointer;">{{ page }}</a>
+        <li ng-repeat="page in pagination" class="{{page.css_class}}">
+          <a ng-click="Find(page.index)" style="cursor:pointer;">{{ page.text }}</a>
         </li>
       </ul>
   </div>
@@ -156,75 +156,107 @@ For license information, see LICENSE
         <tbody>
 
           <tr ng-repeat="triple in search_result.found_triples">
-              <td>{{triple.n}}</td>
-              <td>{{triple.t}}</td>
+              <td><span class="tab-text">{{triple.n}}</span></td>
+              <td><span class="tab-text">{{triple.t}}</span></td>
               <td>
-                {{triple.a1.v}}<span ng-show="triple.a1.p">-{{triple.a1.p}}</span>
+                <span class="tab-text">
+                  {{triple.a1.v}}<span class="tab-text" ng-show="triple.a1.p">-{{triple.a1.p}}</span>
+                </span>
                 <button
-                        title="{{triple.a1.v}}"
+                        title="Word Set '{{triple.a1.v}}' ({{triple.a1.w.length}} words)"
                         data-container="body"
                         data-toggle="popover"
                         data-placement="top"
-                        data-content="Synset ({{triple.a1.w.length}} words):<br/><div style='overflow:scroll;height:200px;'>{{triple.a1.w.join(', ')}}</div>"
+                        data-content="<div style='overflow:scroll;height:200px;'>{{triple.a1.w.join(', ')}}</div>"
                         ng-show="triple.a1.t==1"
-                        class="btn btn-default btn-xs show-popover"
-                        >...</button>
+                        class="btn btn-default btn-xs show-popover pull-right"
+                        >
+                          set
+                        </button>
               </td>
               <td>
-                {{triple.a2.v}}<span ng-show="triple.a2.p">-{{triple.a2.p}}</span>
+                <span class="tab-text">
+                  {{triple.a2.v}}<span class="tab-text" ng-show="triple.a2.p">-{{triple.a2.p}}</span>
+                </span>
                 <button
-                        title="{{triple.a2.v}}"
+                        title="Word Set '{{triple.a2.v}}' ({{triple.a2.w.length}} words)"
                         data-container="body"
                         data-toggle="popover"
                         data-placement="top"
-                        data-content="Synset ({{triple.a2.w.length}} words):<br/><div style='overflow:scroll;height:200px;'>{{triple.a2.w.join(', ')}}</div>"
+                        data-content="<div style='overflow:scroll;height:200px;'>{{triple.a2.w.join(', ')}}</div>"
                         ng-show="triple.a2.t==1"
-                        class="btn btn-default btn-xs show-popover"
-                        >...</button>
+                        class="btn btn-default btn-xs show-popover pull-right"
+                        >
+                          set
+                        </button>
               </td>
               <td>
-                {{triple.a3.v}}<span ng-show="triple.a3.p">-{{triple.a3.p}}</span>
+                <span class="tab-text">
+                  {{triple.a3.v}}<span ng-show="triple.a3.p">-{{triple.a3.p}}</span>
+                </span>
                 <button
-                        title="{{triple.a3.v}}"
+                        title="Word Set '{{triple.a3.v}}' ({{triple.a3.w.length}} words)"
                         data-container="body"
                         data-toggle="popover"
                         data-placement="top"
-                        data-content="Synset ({{triple.a3.w.length}} words):<br/><div style='overflow:scroll;height:200px;'>{{triple.a3.w.join(', ')}}</div>"
+                        data-content="<div style='overflow:scroll;height:200px;'>{{triple.a3.w.join(', ')}}</div>"
                         ng-show="triple.a3.t==1"
-                        class="btn btn-default btn-xs show-popover"
-                        >...</button>
+                        class="btn btn-default btn-xs show-popover pull-right"
+                        >
+                          set
+                        </button>
               </td>
               <td>
-                {{triple.a4.v}}<span ng-show="triple.a4.p">-{{triple.a4.p}}</span>
+                <span class="tab-text">
+                  {{triple.a4.v}}<span ng-show="triple.a4.p">-{{triple.a4.p}}</span>
+                </span>
                 <button
-                        title="{{triple.4.v}}"
+                        title="Word Set '{{triple.a4.v}}' ({{triple.a4.w.length}} words)"
                         data-container="body"
                         data-toggle="popover"
                         data-placement="top"
-                        data-content="Synset ({{triple.a4.w.length}} words):<br/><div style='overflow:scroll;height:200px;'>{{triple.a4.w.join(', ')}}</div>"
+                        data-content="<div style='overflow:scroll;height:200px;'>{{triple.a4.w.join(', ')}}</div>"
                         ng-show="triple.a4.t==1"
-                        class="btn btn-default btn-xs show-popover"
-                        >...</button>
+                        class="btn btn-default btn-xs show-popover pull-right"
+                        >
+                          set
+                        </button>
               </td>
               <td>
-                {{triple.a5.v}}<span ng-show="triple.a5.p">-{{triple.a5.p}}</span>
+                <span class="tab-text">
+                  {{triple.a5.v}}<span ng-show="triple.a5.p">-{{triple.a5.p}}</span>
+                </span>
                 <button
-                        title="{{triple.a5.v}}"
+                        title="Word Set '{{triple.a5.v}}' ({{triple.a5.w.length}} words)"
                         data-container="body"
                         data-toggle="popover"
                         data-placement="top"
-                        data-content="Synset ({{triple.a5.w.length}} words):<br/><div style='overflow:scroll;height:200px;'>{{triple.a5.w.join(', ')}}</div>"
+                        data-content="<div style='overflow:scroll;height:200px;'>{{triple.a5.w.join(', ')}}</div>"
                         ng-show="triple.a5.t==1"
-                        class="btn btn-default btn-xs show-popover"
-                        >...</button>
+                        class="btn btn-default btn-xs show-popover pull-right"
+                        >
+                          set
+                        </button>
               </td>
-              <td>{{triple.f}}</td>
+              <td><span class="tab-text">{{triple.f}}</span></td>
           </tr>
 
         </tbody>
       </table>
     </div>
+
+    <div class="row">
+      <div class="col-md-10">
+          <ul class="pagination pagination-sm" ng-if="search_result.pages>1" style="margin-top:0;">
+            <li ng-repeat="page in pagination" class="{{page.css_class}}">
+              <a ng-click="Find(page.index)" style="cursor:pointer;">{{ page.text }}</a>
+            </li>
+          </ul>
+      </div>
+    </div>
+
   </div>
+
 </div>
 
 
