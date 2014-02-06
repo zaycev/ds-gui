@@ -13,4 +13,5 @@ from django.conf.urls import patterns
 urlpatterns = patterns("search.views",
     url(r"^$", "home", name="home"),
     url(r"^find/$", "find", name="find"),
+    url(r"^about/$", "about", name="about"),
 )

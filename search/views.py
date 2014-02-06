@@ -20,14 +20,23 @@ from django.shortcuts import render_to_response
 logger = logging.getLogger(__name__)
 
 
+def load_index(path):
+    try:
+        index = MicroIndex(path)
+        return index
+    except Exception:
+        return None
+
+
 indexes = {
-    "eng":     (MicroIndex("index_eng.ldb"),        "English"),
-    "eng_gen": (MicroIndex("index_eng_gen.ldb"),    "English (generalized)"),
+    "eng":     (load_index("index_eng.ldb"),        "English"),
+    "eng_gen": (load_index("index_eng_gen.ldb"),    "English (generalized)"),
 
-    "rus":     (None,                               "Russian"),
-    "rus_gen": (None,                               "Russian (generalized)"),
+    "rus":     (load_index("index_rus.ldb"),        "Russian"),
+    "rus_gen": (load_index("index_rus_gen.ldb"),    "Russian (generalized)"),
 
-    "spa":     (None,                               "Spanish"),
+    "spa":     (load_index("index_spa.ldb"),        "Spanish"),
+    "spa_gen": (load_index("index_spa_gen.ldb"),    "Spanish (generalized)"),
 }
 
 
@@ -38,8 +47,14 @@ def json_response(json_dict):
 def home(request):
     return render_to_response("index.html", {})
 
+
+def about(request):
+    return render_to_response("about.html", {})
+
+
 W_NONE = {"v": "<NONE>", "p":None, "w":[], "t":0}
 W_EMPY = {"v": "<->", "p":None, "w":[], "t":0}
+
 
 def format_arg(query_words, arg, max_len=16):
     if arg == "<NONE>":

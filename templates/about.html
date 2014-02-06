@@ -1,0 +1,169 @@
+<!--
+Copyright (C) University of Southern California (http://usc.edu)
+Author: Vladimir M. Zaytsev <zaytsev@usc.edu>
+URL: <http://nlg.isi.edu/>
+For more information, see README.md
+For license information, see LICENSE
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>About | Dependency Store</title>
+    <link href="/static/css/bootstrap.css" rel="stylesheet">
+    <link href="/static/css/custom.css" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="/static/js/vendor/html5shiv.js"></script>
+      <script src="/static/js/vendor/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+
+    <div id="wrap">
+
+
+      <div class="container">
+        <div class="page-header">
+          <h1>
+            About dependency store web service
+          </h1>
+
+          <a id="about-button" type="button" href="/" class="pull-right btn btn-default btn-xs">
+            Back
+          </a>
+        </div>
+
+        <p class="lead">
+          A dependency store, i.e. a collection of dependency relations with assigned frequencies.
+        </p>
+
+        <p>
+          This web service provides an access to 5 dependency stores (data files can be found in <a href="https://github.com/zaycev/ds-data">this</a> repository):
+        </p>
+        <ul>
+          <li>English</li>
+          <li>English generalized</li>
+          <li>Russian</li>
+          <li>Russian generalized</li>
+          <li>Spanish</li>
+        </ul>
+
+        <h3>Building Dependency Stores</h3>
+        <p>
+          We build upon the idea that by parsing a sentence and abstracting from its syntactic structure (e.g., dropping modifiers) we can obtain common sense knowledge. For example, the sentence <em>Powerful summer storms left extensive damage in California</em> reveals common sense knowledge about storms possibly leaving damage and being powerful. This knowledge can be captured by tuples of words that have a determined pattern of syntactic relations among them. While many of such tuples can be erroneous due to parse errors, statistically higher frequency tuples can be considered more reliable.
+        </p>
+
+
+        <p>
+          We generated dependency tuples from parsed <a href="http://catalog.ldc.upenn.edu/LDC2003T05">English Gigaword</a>, <a href="http://catalog.ldc.upenn.edu/LDC2011T12">Spanish Gigaword</a>, <a href="http://corpus.leeds.ac.uk/mocky/">Russian ruwac</a>. The corpora were parsed using the following semantic processing pipelines:
+        </p>
+
+        <ul>
+
+          <li><a href="https://github.com/metaphor-adp/Metaphor-ADP/tree/master/pipelines/English">English</a></li>
+          <li><a href="https://github.com/metaphor-adp/Metaphor-ADP/tree/master/pipelines/Spanish">Spanish</a></li>
+          <li><a href="https://github.com/metaphor-adp/Metaphor-ADP/tree/master/pipelines/Russian">Russian</a></li>
+
+        </ul>
+
+
+        <p>
+          As one of the possible formats, the semantic processing pipelines output logical forms of sentences in the style of (<a href="http://www.isi.edu/%7Ehobbs/op-acl85.pdf">Hobbs, 1985</a>), generalize over some syntactic constructions (e.g., passive/active), and performs binding of arguments. For example, the sentence John decided to go to school is represented as follows:
+        </p>
+
+        <p>
+          <pre>john-nn(e1,x1) & decide-vb(e2,x1,e3,u1) & go-vb(e3,x1,u2,u3) & to-in(e4,e3,x2) & school-nn(e5,x2)</pre>
+        </p>
+
+        <p>
+          The following dependency tuples can be extracted from this output:
+        </p>
+
+        <p>
+        <pre>(subj-verb john decide)
+(subj-verb john go)
+(verb-verb decide go)
+(verb-prep-noun go to school)</pre>
+        </p>
+
+        <p>
+          A dependency store is a collection of such tuples such that each tuple is assigned its frequency in a corpus.
+        </p>
+
+        <h3>Generalizing over Dependency Tuples</h3>
+        <p>
+          A significant amount of the dependency tuples can be further generalized if we abstract from named entities, synonyms, and sister terms. Consider the following NVNPN tuples:
+        </p>
+
+        <p>
+          <pre>(Guardian publish interview with Stevens)
+(newspaper publish interview with John)
+(journal publish interview with Dr. Crick)</pre>
+        </p>
+
+        <p>
+          The first two tuples above provide evidence for generating the tuple newspaper publish interview with person). All three tuples above can be generalized into <em>(periodical publish interview with person)</em>. Such generalizations help to refine frequencies assigned to tuples containing abstract nouns and infer new tuples.
+        </p>
+
+        <p>
+In order to obtain the generalizations, we first map nouns contained in the tuples into WordNet and Wikipedia semantic nodes using the <a href="http://www.mpi-inf.mpg.de/yago-naga/yago/">YAGO</a> ontology. Then we merge together tuples can contain arguments mapped to the same semantic nodes in YAGO.
+        </p>
+
+        <blockquote>
+          <p>The tools for building dependency stores can be found in <a href="https://github.com/zaycev/mokujin">this</a> repository.</p>
+        </blockquote>
+
+        <h3>Contact</h3>
+        <ul>
+          <li>Katya Ovchinnikova <a style="font-family:monospace;" href="mailto:e.ovchinnikova@gmail.com">&lt;e.ovchinnikova@gmail.com&gt;</a></li>
+          <li>Vova Zaytsev <a style="font-family:monospace;" href="mailto:zaytsev@usc.edu">&lt;zaytsev@usc.edu&gt;</a></li>
+        </ul>
+
+
+        <h3>Links</h3>
+        <ul>
+          <li>
+            Data reposiory with tuple stores: <a href="https://github.com/zaycev/ds-data">github.com/zaycev/ds-data</a>
+          </li>
+          <li>
+            Source code of the web-service: <a href="https://github.com/zaycev/ds-gui">github.com/zaycev/ds-gui</a>
+          </li>
+          <li>
+            License: 2014 © University of Southern California. Information Sciences Institute, Licensed under <a href="http://www.apache.org/licenses/LICENSE-2.0.html">Apache License, Version 2.0</a>.
+          </li>
+        </ul>
+
+      </div>
+
+      <br/>
+
+    </div>
+
+    <div id="footer">
+      <div class="container">
+        <p class="text-muted">
+          2014 &copy; University of Southern California.
+          Information Sciences Institute
+        </p>
+      </div>
+    </div>
+
+
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular-cookies.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular-route.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.10/angular-animate.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="/static/js/vendor/bootstrap.min.js"></script>
+
+  </body>
+</html>
