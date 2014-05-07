@@ -1,7 +1,7 @@
-Dependency store web service
+Proposition store web service
 ===================
 
-A dependency store, i.e. a collection of dependency relations with assigned frequencies. This web service provides an access to 5 dependency stores:
+A proposition store is a collection of propositions with assigned frequencies. This web service provides an access to 5 proposition stores:
 
 - English
 - English generalized
@@ -9,12 +9,13 @@ A dependency store, i.e. a collection of dependency relations with assigned freq
 - Russian generalized
 - Spanish
 
-**Building Dependency Stores**
+**Building Proposition Stores**
 
 We build upon the idea that by parsing a sentence and abstracting from its syntactic structure (e.g.,
-dropping modifiers) we can obtain common sense knowledge. For example, the sentence *Powerful summer storms left extensive damage in California* reveals common sense knowledge about storms possibly leaving damage and being powerful. This knowledge can be captured by tuples of words that have a determined pattern of syntactic relations among them. While many of such tuples can be erroneous due to parse errors, statistically higher frequency tuples can be considered more reliable.
+dropping modifiers) we can obtain common sense knowledge. For example, the sentence *Powerful summer storms left extensive damage in California* reveals common sense knowledge about storms possibly leaving damage and being powerful. This knowledge can be captured by This
+knowledge can be captured by *propositions*, i.e. tuples of words that have a determined pattern of syntactic relations among them. While many of such tuples can be erroneous due to parse errors, statistically higher frequency tuples can be considered more reliable.
 
-We generated dependency tuples from parsed [English Gigaword](http://catalog.ldc.upenn.edu/LDC2003T05), [Spanish Gigaword](http://catalog.ldc.upenn.edu/LDC2011T12), [Russian ruwac](http://corpus.leeds.ac.uk/mocky/). The corpora were parsed using the following semantic processing pipelines:
+We generated propositions from parsed [English Gigaword](http://catalog.ldc.upenn.edu/LDC2003T05), [Spanish Gigaword](http://catalog.ldc.upenn.edu/LDC2011T12), [Russian ruwac](http://corpus.leeds.ac.uk/mocky/). The corpora were parsed using the following semantic processing pipelines:
 
 - [English](https://github.com/metaphor-adp/Metaphor-ADP/tree/master/pipelines/English)
 - [Spanish](https://github.com/metaphor-adp/Metaphor-ADP/tree/master/pipelines/Spanish)
@@ -27,7 +28,7 @@ forms of sentences in the style of [(Hobbs, 1985)](http://www.isi.edu/~hobbs/op-
 john-nn(e1,x1) & decide-vb(e2,x1,e3,u1) & go-vb(e3,x1,u2,u3) & to-in(e4,e3,x2) & school-nn(e5,x2)
 ```
 
-The following dependency tuples can be extracted
+The following tuples can be extracted
 from this output:
 
 ```
@@ -37,12 +38,11 @@ from this output:
 (verb-prep-noun go to school)
 ```
 
-A dependency store is a collection of such tuples such that each tuple is assigned its frequency in a corpus. 
+A propositions store is a collection of such tuples such that each tuple is assigned its frequency in a corpus. 
 
-**Generalizing over Dependency Tuples**
+**Generalizing over Propositions**
 
-A significant amount of the dependency tuples can be further generalized if we abstract from named
-entities, synonyms, and sister terms. Consider the following NVNPN tuples:
+A significant amount of the propositions can be further generalized if we abstract from named entities, synonyms, and sister terms. Consider the following NVNPN tuples:
 
 ```
 (Guardian publish interview with Stevens)
@@ -57,7 +57,7 @@ and Wikipedia semantic nodes using the [YAGO](http://www.mpi-inf.mpg.de/yago-nag
 
 ---
 
-The tools for building dependency stores can be found in [this repository](https://github.com/zaycev/mokujin).
+The tools for building proposition stores can be found in [this repository](https://github.com/zaycev/mokujin).
 
 ---
 
