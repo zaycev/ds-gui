@@ -326,7 +326,10 @@ class MicroIndex(object):
             for i, doc_pos in enumerate(poss_id):
                 if doc_pos != pos_id:
                     doc_id = dics_id[i]
-                    dics_id_set.remove(doc_id)
+                    try:
+                        dics_id_set.remove(doc_id)
+                    except KeyError:
+                        pass
 
         if idx is not None:
             idxs_id = np.fromstring(self.idx_ldb.get(word_id + MicroIndex.DELIMITER + "I"), dtype=np.uint8)
